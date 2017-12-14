@@ -10,6 +10,10 @@ namespace lab6
     class Connection
     {
 
+        /// <summary>
+        /// Точка доступа
+        /// </summary>
+        public AccessPoint AccessPoint { get; set; }
 
         /// <summary>
         /// Название Wi-Fi сети; 
@@ -24,15 +28,9 @@ namespace lab6
         }
 
         /// <summary>
-        /// Точка доступа
-        /// </summary>
-        public AccessPoint AccessPoint { get; set; }
-
-        /// <summary>
         /// MAC-адрес
         /// </summary>
         public string Mac { get; set; }
-
 
         /// <summary>
         /// Сила сигнала
@@ -53,6 +51,9 @@ namespace lab6
             }
         }
 
+        /// <summary>
+        /// Подключен ли к данному WIFI
+        /// </summary>
         public bool IsConnected
         {
             get
@@ -73,7 +74,7 @@ namespace lab6
         }
 
         /// <summary>
-        /// Тип авторизации
+        /// Тип авторизации/шифрования
         /// </summary>
         public string AuthType
         {
@@ -84,11 +85,15 @@ namespace lab6
 
                 switch (CipherAlgorithm)
                 {
+                    //Открытая сеть WIFi
                     case "None":
                         return "Open";
+                    //Wired Equivalent Privacy    
                     case "Wep":
                         return "Wep";
+                    //Counter Mode with Cipher Block Chaining Message Authentication Code Protocol
                     case "CCMP":
+                    //Temporal Key Integrity Protocol
                     case "TKIP":
                         return (authAlgorithm.Equals("RSNA") ? "WPA2-Enterprise-PEAP-MSCHAPv2" : "WPA2-PSK");
                     default:
@@ -103,7 +108,7 @@ namespace lab6
         /// <param name="authRequest"></param>
         /// <param name="onConnectComplete"></param>
         /// <param name="remember"></param>
-        public void ConnectAsync(AuthRequest authRequest, Action<bool> onConnectComplete, bool remember)
+        public void ConnectAsync(AuthRequest authRequest, bool remember, Action<bool> onConnectComplete)
         {
             this.AccessPoint.ConnectAsync(authRequest, !remember, onConnectComplete);
         }

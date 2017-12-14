@@ -13,19 +13,12 @@ namespace lab6
         /// <summary>
         /// Лист соединений
         /// </summary>
-        public List<Connection> Connections { get; private set; }
+        public List<Connection> Connections { get;  set; }
 
         /// <summary>
         /// Уникальный номер точки доступа
         /// </summary>
         private string[] Вssids;
-
-
-
-        /// <summary>
-        /// Длина строки Mac
-        /// </summary>
-        private const int LengthOfMacString = 17;
 
         /// <summary>
         /// Конструктор по умолчанию
@@ -104,18 +97,21 @@ namespace lab6
             {
                 if (foundMac)
                 {
-                    return bssid.Substring(bssid.Length - LengthOfMacString, LengthOfMacString);
+                    return bssid.Substring(bssid.Length - 17, 17);
                 }
                 foundMac = (bssid.Split(':')[0].Contains("SSID") && accessPoint.Name.Equals(bssid.Split(':')[1]));
             }
             return null;
         }
 
+        /// <summary>
+        /// Список имен WIFI
+        /// </summary>
         public ListViewItem[] ConnectionsNames
         {
             get
             {
-                var connectionsList = new ListViewItem[NumberOfConnections];
+                ListViewItem[] connectionsList = new ListViewItem[NumberOfConnections];
                 for (int i = 0; i < NumberOfConnections; i++)
                 {
                     connectionsList[i] = new ListViewItem(Connections[i].SSID ?? "Hidden connection");
@@ -124,9 +120,14 @@ namespace lab6
             }
         }
 
+        /// <summary>
+        /// Информация в листе об подключении
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public ListViewItem[] ConnectionInfo(int index)
         {
-            var connection = Connections[index];
+            Connection connection = Connections[index];
             return new ListViewItem[] {
                     new ListViewItem($"{connection.SSID ?? "Hidden connection"}"),
                     new ListViewItem($"{connection.AuthType}"),
@@ -134,7 +135,7 @@ namespace lab6
                     new ListViewItem($"{connection.SignalStrength}"),
                     new ListViewItem($"{connection.IsSecured}"),
                     new ListViewItem($"{connection.HasProfile}"),
-                    new ListViewItem($"I{connection.IsConnected}")
+                    new ListViewItem($"{connection.IsConnected}")
                 };
         }
 
@@ -153,7 +154,7 @@ namespace lab6
             {
                 Password = password
             };
-            connection.ConnectAsync(authRequest, onConnectComplite, remember);
+            connection.ConnectAsync(authRequest, remember, onConnectComplite);
         }
 
         /// <summary>
@@ -163,5 +164,6 @@ namespace lab6
         {
             _wifi.Disconnect();
         }
+
     }
 }
