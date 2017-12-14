@@ -5,14 +5,14 @@ namespace lab6
 {
     public partial class WiFiForm : Form
     {
-        private MyWIFI _connectionsControll;
+        private MyWIFI _MyWifi;
         private Timer _timer;
         private int _selectedIndex;
         private bool IsValidSelection
         {
             get
             {
-                if ((_selectedIndex != -1) && (_selectedIndex < _connectionsControll.NumberOfConnections))
+                if ((_selectedIndex != -1) && (_selectedIndex < _MyWifi.NumberOfConnections))
                 {
                     return true;
                 }
@@ -27,7 +27,7 @@ namespace lab6
         public WiFiForm()
         {
             InitializeComponent();
-            _connectionsControll = new MyWIFI();
+            _MyWifi = new MyWIFI();
             _selectedIndex = -1;
             Load += (s, e) =>
             {
@@ -50,7 +50,7 @@ namespace lab6
         {
             _timer?.Stop();
 
-            ShowConnections(_connectionsControll.FindAllPoints());
+            ShowConnections(_MyWifi.FindAllPoints());
             if (IsValidSelection)
             {
                 connectionsList.Items[_selectedIndex].Selected = true;
@@ -64,15 +64,21 @@ namespace lab6
         {
             connectionsList.Items.Clear();
             if (turnedOn)
-                connectionsList.Items.AddRange(_connectionsControll.ConnectionsNames);
+                connectionsList.Items.AddRange(_MyWifi.ConnectionsNames);
             else
                 connectionsList.Items.Add("Wi-Fi отключен");
         }
 
         private void ShowSelectedInfo()
         {
-            infoList.Items.Clear();
-            infoList.Items.AddRange(_connectionsControll.ConnectionInfo(_selectedIndex));
+            
+            label12.Text = _MyWifi.ConnectionInfo(_selectedIndex)[0].Text;
+            label13.Text = _MyWifi.ConnectionInfo(_selectedIndex)[1].Text;
+            label14.Text = _MyWifi.ConnectionInfo(_selectedIndex)[2].Text;
+            label15.Text = _MyWifi.ConnectionInfo(_selectedIndex)[3].Text;
+            label16.Text = _MyWifi.ConnectionInfo(_selectedIndex)[4].Text;
+            label17.Text = _MyWifi.ConnectionInfo(_selectedIndex)[5].Text;
+            label18.Text = _MyWifi.ConnectionInfo(_selectedIndex)[6].Text;
         }
 
         private void ConnectMessage(bool success)
@@ -86,7 +92,7 @@ namespace lab6
 
         private void DisconnectButton_Click(object sender, EventArgs e)  
         {
-            _connectionsControll.Disconnect();
+            _MyWifi.Disconnect();
             MessageBox.Show("Успешное отключение");
         }
 
@@ -95,7 +101,7 @@ namespace lab6
             if (IsValidSelection)
             {
                 var password = passwordBox.Text;
-                _connectionsControll.Connect(_selectedIndex, password, ConnectMessage,checkBox1.Checked);
+                _MyWifi.Connect(_selectedIndex, password, ConnectMessage,checkBox1.Checked);
             }
         }
 
@@ -104,7 +110,7 @@ namespace lab6
             if (e.Button == MouseButtons.Left)
             {
                 var selected = connectionsList.FocusedItem;
-                if ((selected != null) && (selected.Bounds.Contains(e.Location) == true) && _connectionsControll.CheckWifi())
+                if ((selected != null) && (selected.Bounds.Contains(e.Location) == true) && _MyWifi.CheckWifi())
                 {
                     _selectedIndex = selected.Index;
                     ShowSelectedInfo();

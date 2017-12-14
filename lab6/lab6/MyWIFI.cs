@@ -128,13 +128,13 @@ namespace lab6
         {
             var connection = Connections[index];
             return new ListViewItem[] {
-                    new ListViewItem($"Name: {connection.SSID ?? "Hidden connection"}"),
-                    new ListViewItem($"Auth Type: {connection.AuthType}"),
-                    new ListViewItem($"Mac: {connection.Mac}"),
-                    new ListViewItem($"Signal Strength: {connection.SignalStrength}"),
-                    new ListViewItem($"Is Secured: {connection.IsSecured}"),
-                    new ListViewItem($"Has profile: {connection.HasProfile}"),
-                    new ListViewItem($"Is Connected: {connection.IsConnected}")
+                    new ListViewItem($"{connection.SSID ?? "Hidden connection"}"),
+                    new ListViewItem($"{connection.AuthType}"),
+                    new ListViewItem($"{connection.Mac}"),
+                    new ListViewItem($"{connection.SignalStrength}"),
+                    new ListViewItem($"{connection.IsSecured}"),
+                    new ListViewItem($"{connection.HasProfile}"),
+                    new ListViewItem($"I{connection.IsConnected}")
                 };
         }
 
