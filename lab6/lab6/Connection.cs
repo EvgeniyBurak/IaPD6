@@ -73,8 +73,8 @@ namespace lab6
         }
 
         /// <summary>
-     /// Тип авторизации
-     /// </summary>
+        /// Тип авторизации
+        /// </summary>
         public string AuthType
         {
             get

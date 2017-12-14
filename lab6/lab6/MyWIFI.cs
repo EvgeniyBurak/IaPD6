@@ -20,7 +20,7 @@ namespace lab6
         /// </summary>
         private string[] Вssids;
 
- 
+
 
         /// <summary>
         /// Длина строки Mac
